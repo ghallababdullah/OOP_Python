@@ -14,7 +14,7 @@ BOOKS_DATABASE = [
 ]
 
 
-class Book(BaseModel):
+class Book:
     """
     Класс для представления книги с использованием Pydantic для валидации.
 
@@ -35,9 +35,19 @@ class Book(BaseModel):
         "Book(id=1, name='Преступление и наказание', pages=671)"
     """
 
-    id: int
-    name: str
-    pages: int
+    def __init__(self, id: int, name: str, pages: int):
+        self.id = id
+        if not isinstance(id, int):
+            raise TypeError("ID должно быть типа int")
+        self.name = name
+        if not isinstance(name, str):
+            raise TypeError("name должно быть типа str")
+
+        self.pages = pages
+        if not isinstance(pages, int):
+            raise TypeError("Количество страниц должно быть типа int")
+        if pages <= 0:
+            raise ValueError("Количество страниц должно быть положительным числом")
 
     def __str__(self) -> str:
         """
